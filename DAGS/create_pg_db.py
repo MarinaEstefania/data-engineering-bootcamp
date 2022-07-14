@@ -29,7 +29,6 @@ from airflow.utils.dates import days_ago
 with DAG(
     dag_id = "db_pg_ingestion", 
     start_date=days_ago(1)
-    schedule_interval = '0 0 * * *'
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
     validate = DummyOperator(task_id="validate")
