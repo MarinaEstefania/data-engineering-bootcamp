@@ -8,7 +8,7 @@ from airflow.utils.dates import days_ago
 '''def ingest_data():
     hook = PostgresHook(postgres_conn_id)
     hook.insert_rows(
-        table="dbname.user_purchase",
+        table="deb.user_purchase",
         rows=[
             [
                 "Jan 2000",
@@ -36,7 +36,17 @@ with DAG(
         task_id="prepare",
         postgres_conn_id="pg_db", 
         sql="""
-            CREATE SCHEMA pgschema;
+            CREATE SCHEMA deb;
+            CREATE TABLE deb.user_purchase (
+                invoice_number varchar(10),
+                stock_code varchar(20),
+                detail varchar(1000),
+                quantity int,
+                invoice_date timestamp,
+                unit_price numeric(8,3),
+                customer_id int,
+                country varchar(20)
+            );
             """,
     )
     load = DummyOperator(task_id="load")
