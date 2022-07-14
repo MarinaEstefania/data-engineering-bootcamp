@@ -47,6 +47,7 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
+            SELECT * FROM deb.user_purchase FETCH FIRST 1 ROW ONLY;
 
             """,
     )
