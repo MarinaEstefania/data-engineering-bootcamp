@@ -36,8 +36,8 @@ with DAG(
         task_id="prepare",
         postgres_conn_id="pg_db", 
         sql="""
-            CREATE SCHEMA deb;
-            CREATE TABLE deb.user_purchase (
+            CREATE SCHEMA if not exists deb;
+            CREATE TABLE if not exists deb.user_purchase (
                 invoice_number varchar(10),
                 stock_code varchar(20),
                 detail varchar(1000),
@@ -47,6 +47,7 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
+
             """,
     )
     load = DummyOperator(task_id="load")
