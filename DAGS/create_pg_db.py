@@ -47,11 +47,13 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
-            SELECT * FROM deb.user_purchase FETCH FIRST 1 ROW ONLY;
+            SELECT COUNT(*) AS total_rows FROM deb.user_purchase;
 
             """,
     )
-    load = DummyOperator(task_id="load")
+    load = DummyOperator(
+        task_id="load"
+    )
     end_workflow = DummyOperator(task_id="end_worklow")
 
     start_workflow >> validate >> prepare >> load >> end_workflow
