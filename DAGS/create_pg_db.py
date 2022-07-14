@@ -52,4 +52,4 @@ with DAG(
     load = DummyOperator(task_id="load")
     end_workflow = DummyOperator(task_id="end_worklow")
 
-    start_workflow >> validate >> load >> end_workflow
+    start_workflow >> validate >> prepare >> load >> end_workflow
