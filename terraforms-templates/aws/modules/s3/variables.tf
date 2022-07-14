@@ -11,7 +11,8 @@ variable "versioning" {
 }
 
 variable "subnet_s3" {
-  type = string
+  #type = string
+  type = list(string)
 }
 
 variable "vpc_id_s3" {

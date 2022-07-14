@@ -39,9 +39,9 @@ ec2_ami = "ami-00dfe2c7ce89a450b" # Amazon Linux 2 AMI (64-bit x86)  Free Tier e
 
 ec2_instance_type = "t2.micro" # Free Tier eligible
 
-# ec2_ssh_key_name = "bastion-host-key"
+ ec2_ssh_key_name = "bastion-host-key"
 
-# ec2_ssh_public_key_path = "./bastion-host-key"
+ ec2_ssh_public_key_path = "./bastion-host-key"
 
 
 #### RDS ####
@@ -64,9 +64,9 @@ db_password = "dbpassword"
 publicly_accessible = false
 
 #### S3 variables ####
-bucket_prefix = "s3-Data-bootcamp-"
+bucket_prefix = "s3-data-bootcamp-megc"
 
 acl = "private"
 
-versioning = true
+versioning = false
 
