@@ -5,10 +5,10 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-def ingest_data():
+'''def ingest_data():
     hook = PostgresHook(postgres_conn_id)
     hook.insert_rows(
-        table="montly_charts_data",
+        table="deb.user_purchase",
         rows=[
             [
                 "Jan 2000",
@@ -24,7 +24,7 @@ def ingest_data():
                 6,
             ]
         ]
-    )
+    )'''
 
 with DAG(
     "db_ingestion", start_date=days_ago(1)
@@ -35,8 +35,8 @@ with DAG(
         task_id="prepare",
         postgres_conn_id="pg_db", 
         sql="""
-            CREATE SCHEMA <schema_name>;
-            CREATE TABLE <schema_name>.user_purchase (
+            CREATE SCHEMA deb;
+            CREATE TABLE deb.user_purchase (
                 invoice_number varchar(10),
                 stock_code varchar(20),
                 detail varchar(1000),
