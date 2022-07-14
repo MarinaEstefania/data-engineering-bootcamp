@@ -8,7 +8,7 @@ from airflow.utils.dates import days_ago
 '''def ingest_data():
     hook = PostgresHook(postgres_conn_id)
     hook.insert_rows(
-        table="deb.user_purchase",
+        table="dbname.user_purchase",
         rows=[
             [
                 "Jan 2000",
@@ -29,6 +29,7 @@ from airflow.utils.dates import days_ago
 with DAG(
     dag_id = "db_pg_ingestion", 
     start_date=days_ago(1)
+    schedule_interval = '0 0 * * *'
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
     validate = DummyOperator(task_id="validate")
