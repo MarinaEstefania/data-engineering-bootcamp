@@ -32,8 +32,8 @@ with DAG(
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
     validate = DummyOperator(task_id="validate")
-    prepare = PostgresOperator(
-        task_id="prepare"''',
+  '''  prepare = PostgresOperator(
+        task_id="prepare",
         postgres_conn_id="pg_db", 
         sql="""
             CREATE SCHEMA deb;
@@ -47,9 +47,9 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
-            """,'''
-    )
+            """,
+    )'''
     load = DummyOperator(task_id="load")
-    end_workflow = DummyOperator(task_id="start_worklow")
+    end_workflow = DummyOperator(task_id="end_worklow")
 
-    start_workflow >> validate >> prepare >> load >> end_workflow
+    start_workflow >> validate >> load >> end_workflow
