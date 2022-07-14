@@ -32,23 +32,6 @@ with DAG(
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
     validate = DummyOperator(task_id="validate")
-  '''  prepare = PostgresOperator(
-        task_id="prepare",
-        postgres_conn_id="pg_db", 
-        sql="""
-            CREATE SCHEMA deb;
-            CREATE TABLE deb.user_purchase (
-                invoice_number varchar(10),
-                stock_code varchar(20),
-                detail varchar(1000),
-                quantity int,
-                invoice_date timestamp,
-                unit_price numeric(8,3),
-                customer_id int,
-                country varchar(20)
-            );
-            """,
-    )'''
     load = DummyOperator(task_id="load")
     end_workflow = DummyOperator(task_id="end_worklow")
 
