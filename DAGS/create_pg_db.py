@@ -45,7 +45,7 @@ with DAG(
         sql="""SELECT COUNT(*) AS total_rows FROM deb.user_purchase;""",
 
     ),
-    load = DummyOperator(
+    load = PostgresOperator(
         task_id="load",
         postgres_conn_id="pg_db", 
     )
