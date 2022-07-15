@@ -12,10 +12,10 @@ def get_table_count():
     pg_hook = PostgresHook(postgres_conn_id='pg_db')
     pg_conn = pg_hook.get_conn()
     cursor = pg_conn.cursor()
-    cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
+    count = cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
     #cursor.close()
     #pg_conn.close
-    return list(cursor)
+    return count
 
 with DAG(
     dag_id = DAG_ID, 
