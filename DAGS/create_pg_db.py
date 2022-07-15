@@ -1,3 +1,4 @@
+from asyncio import tasks
 from airflow.models import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
@@ -5,14 +6,16 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-DAG_ID = "db_pg_ingestion"
+DAG_ID = "csv_to_rds"
 
-get_table_count = PostgresOperator(
-    task_id="get_table_count",
-    postgres_conn_id="pg_db",
-    sql="SELECT COUNT(*) AS total_rows FROM deb.user_purchase;",
-
-),
+def get_table_count():
+    pg_hook = PostgresHook(postgres_conn_id='pg_db')
+    pg_conn = pg_hook.get_conn()
+    cursor = pg_conn.cursor()
+    cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
+    #cursor.close()
+    #pg_conn.close
+    return cursor
 
 with DAG(
     dag_id = DAG_ID, 
@@ -39,14 +42,14 @@ with DAG(
             );
             """,
     )
-    get_table_count = PostgresOperator(
-        task_id="get_table_count",
-        postgres_conn_id="pg_db",
-        sql="""SELECT COUNT(*) AS total_rows FROM deb.user_purchase;""",
+    count = PythonOperator(
+        task_id = "count",
+        python_calleable = get_table_count
+
     )
     load = DummyOperator(
         task_id="load"
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
-    start_workflow >> validate >> prepare >> get_table_count >> load >> end_workflow
+    start_workflow >> validate >> prepare >> count >> load >> end_workflow
