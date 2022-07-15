@@ -43,11 +43,9 @@ with DAG(
         task_id="get_table_count",
         postgres_conn_id="pg_db",
         sql="""SELECT COUNT(*) AS total_rows FROM deb.user_purchase;""",
-
-    ),
-    load = PostgresOperator(
-        task_id="load",
-        postgres_conn_id="pg_db", 
+    )
+    load = DummyOperator(
+        task_id="load"
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
