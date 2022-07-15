@@ -44,7 +44,7 @@ with DAG(
     )
     count = PythonOperator(
         task_id = "count",
-        python_calleable = get_table_count
+        python_callable = get_table_count
 
     )
     load = DummyOperator(
