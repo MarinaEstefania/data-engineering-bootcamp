@@ -49,8 +49,15 @@ with DAG(
         python_callable = get_table_count
 
     )
-    load = DummyOperator(
-        task_id="load"
+    load = PostgresOperator(
+        task_id="load",
+        postgres_conn_id="pg_db", 
+        sql="""
+            COPY deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+                FROM 'C:\Users\mgarc\Documents\wizeline\bootcamp\data-engineering-bootcamp\DATA\user_purchase.csv'
+                DELIMITER ','
+                CSV HEADER;
+            """,
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
