@@ -15,6 +15,7 @@ def get_table_count():
     count = cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
     #cursor.close()
     #pg_conn.close
+    print("returning")
     return count
 
 with DAG(
@@ -40,6 +41,7 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
+            SELECT COUNT(*) AS total_rows FROM deb.user_purchase
             """,
     )
     count = PythonOperator(
