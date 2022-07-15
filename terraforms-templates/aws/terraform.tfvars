@@ -55,7 +55,7 @@ engine_version = "12.8"
 
 instance_type = "db.t2.micro"
 
-database_name = "Schema"
+database_name = "Schemadb"
 
 db_username = "Login"
 
