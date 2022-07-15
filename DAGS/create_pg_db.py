@@ -5,30 +5,20 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-'''def ingest_data():
-    hook = PostgresHook(postgres_conn_id)
-    hook.insert_rows(
-        table="deb.user_purchase",
-        rows=[
-            [
-                "Jan 2000",
-                1,
-                "The Weeknd",
-                "Out of time",
-                100.01,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-            ]
-        ]
-    )'''
+DAG_ID = "db_pg_ingestion"
+
+get_table_count = PostgresOperator(
+    task_id="get_table_count",
+    postgres_conn_id="pg_db",
+    sql="SELECT COUNT(*) AS total_rows FROM deb.user_purchase;",
+
+),
 
 with DAG(
-    dag_id = "db_pg_ingestion", 
-    start_date=days_ago(1)
+    dag_id = DAG_ID, 
+    start_date=days_ago(1),
+    schedule_interval="@once",
+    catchup=False
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
     validate = DummyOperator(task_id="validate")
@@ -47,13 +37,26 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
-            SELECT COUNT(*) AS total_rows FROM deb.user_purchase;
-
             """,
     )
+    get_table_count = PostgresOperator(
+        task_id="get_table_count",
+        postgres_conn_id="pg_db",
+        sql="""SELECT COUNT(*) AS total_rows FROM deb.user_purchase;""",
+
+    ),
     load = DummyOperator(
         task_id="load"
+        postgres_conn_id="pg_db", 
+       ''' sql="""
+            COPY deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+                FROM 'C:\Users\mgarc\Documents\wizeline\bootcamp\data-engineering-bootcamp\DATA\user_purchase.csv'
+                DELIMITER ','
+                CSV HEADER;
+            SELECT COUNT(*) AS total_rows FROM deb.user_purchase;
+
+            """, '''
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
-    start_workflow >> validate >> prepare >> load >> end_workflow
+    start_workflow >> validate >> prepare >> get_table_count >> load >> end_workflow
