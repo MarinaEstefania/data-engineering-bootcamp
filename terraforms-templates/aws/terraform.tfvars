@@ -55,11 +55,11 @@ engine_version = "12.8"
 
 instance_type = "db.t2.micro"
 
-database_name = "dbname"
+database_name = "Schema"
 
-db_username = "dbuser"
+db_username = "Login"
 
-db_password = "dbpassword"
+db_password = "Password"
 
 publicly_accessible = false
 
