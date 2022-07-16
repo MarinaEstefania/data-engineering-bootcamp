@@ -54,11 +54,11 @@ with DAG(
         postgres_conn_id="pg_db", 
         sql="""
             COPY deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
-                FROM r'C:\Users\mgarc\Documents\wizeline\bootcamp\data-engineering-bootcamp\DATA\user_purchase.csv'
+                FROM 'C:\\Users\\mgarc\\Documents\\wizeline\\bootcamp\\data-engineering-bootcamp\\DATA\\user_purchase.csv'
                 DELIMITER ','
                 CSV HEADER;
             SELECT COUNT(*) AS total_rows FROM deb.user_purchase;
-            """,
+            """
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
