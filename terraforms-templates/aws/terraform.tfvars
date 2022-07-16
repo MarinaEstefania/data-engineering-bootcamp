@@ -63,6 +63,8 @@ db_password = "Password"
 
 publicly_accessible = true
 
+privileges  = ["ALL"]
+
 #### S3 variables ####
 bucket_prefix = "s3-data-bootcamp-megc"
 

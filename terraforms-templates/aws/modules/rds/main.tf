@@ -32,6 +32,7 @@ resource "aws_db_subnet_group" "db_subnet" {
 resource "aws_db_instance" "rds-instance" {
   allocated_storage       = var.allocated_storage
   storage_type            = "gp2"
+  domain_iam_role_name    = "pg_read_server_files"
   engine                  = var.db_engine
   engine_version          = var.engine_version
   instance_class          = var.instance_type
