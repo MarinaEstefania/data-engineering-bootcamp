@@ -13,20 +13,17 @@ resource "aws_s3_bucket" "bucket" {
 resource "aws_s3_bucket_object" "object_movie" {
   bucket   = aws_s3_bucket.bucket.id
   key      = "movie_reviews.csv"
-  source   = "data/movie_review.csv"
-  etag     = filemd5("data/movie_review.csv")
+  source   = "C:/Users/mgarc/Documents/wizeline/bootcamp/data-engineering-bootcamp/DATA/movie_review.csv"
 }
 
 resource "aws_s3_bucket_object" "object_log" {
   bucket   = aws_s3_bucket.bucket.id
   key      = "log_reviews.csv"
-  source   = "DATA/log_reviews.csv"
-  etag     = filemd5("DATA/log_reviews.csv")
+  source   = "C:/Users/mgarc/Documents/wizeline/bootcamp/data-engineering-bootcamp/DATA/log_reviews.csv"
 }
 
 resource "aws_s3_bucket_object" "object_purchase" {
   bucket   = aws_s3_bucket.bucket.id
   key      = "user_purchase.csv"
-  source   = "DATA/user_purchase.csv"
-  etag     = filemd5("DATA/user_purchase.csv")
+  source   = "C:/Users/mgarc/Documents/wizeline/bootcamp/data-engineering-bootcamp/DATA/user_purchase.csv"
 }
