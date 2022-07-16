@@ -6,7 +6,7 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-DAG_ID = "csv_to_rds"
+DAG_ID = "csv_local_to_rds"
 
 def get_table_count():
     pg_hook = PostgresHook(postgres_conn_id='pg_db')
@@ -53,7 +53,7 @@ with DAG(
         task_id="load",
         postgres_conn_id="pg_db", 
         sql="""
-            COPY deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+            \copy deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
                 FROM 'C:\\Users\\mgarc\\Documents\\wizeline\\bootcamp\\data-engineering-bootcamp\\DATA\\user_purchase.csv'
                 DELIMITER ','
                 CSV HEADER;

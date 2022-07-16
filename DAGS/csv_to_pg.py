@@ -6,7 +6,7 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-DAG_ID = "csv_to_rds"
+DAG_ID = "csv_s3_to_rds"
 
 def get_table_count():
     pg_hook = PostgresHook(postgres_conn_id='pg_db')
