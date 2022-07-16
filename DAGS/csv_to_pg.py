@@ -15,7 +15,7 @@ def get_table_count():
     count = cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
     #cursor.close()
     #pg_conn.close
-    print("returning")
+    print("returning ")
     return count
 
 
