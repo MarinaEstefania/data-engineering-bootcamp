@@ -54,7 +54,7 @@ with DAG(
         postgres_conn_id="pg_db", 
         sql="""
             \copy deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
-                FROM 'C:\\Users\\mgarc\\Documents\\wizeline\\bootcamp\\data-engineering-bootcamp\\DATA\\user_purchase.csv'
+                FROM 'https://s3-data-bootcamp-megc20220716111413920300000005.s3.us-east-2.amazonaws.com/user_purchase.csv'
                 DELIMITER ','
                 CSV HEADER;
             SELECT COUNT(*) AS total_rows FROM deb.user_purchase;
