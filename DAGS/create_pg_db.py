@@ -53,7 +53,7 @@ with DAG(
         task_id="load",
         postgres_conn_id="pg_db", 
         sql="""
-            \copy deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
+            COPY deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
                 FROM 'https://s3-data-bootcamp-megc20220716111413920300000005.s3.us-east-2.amazonaws.com/user_purchase.csv'
                 DELIMITER ','
                 CSV HEADER;
