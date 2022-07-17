@@ -3,6 +3,7 @@ import os
 from airflow import models
 from airflow.providers.amazon.aws.transfers.local_to_s3 import LocalFilesystemToS3Operator
 from airflow.utils.dates import datetime
+from airflow.utils.dates import days_ago
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
