@@ -7,6 +7,7 @@ from airflow.utils.dates import days_ago
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
+print (os.path.abspath(__file__))
 
 with models.DAG(
     "upload_local_to_s3",
