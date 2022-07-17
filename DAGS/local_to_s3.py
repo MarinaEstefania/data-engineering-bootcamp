@@ -9,6 +9,7 @@ from airflow.hooks.postgres_hook import PostgresHook
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
+print (os.path.abspath(__file__))
 
 file=""
 def find_path():
