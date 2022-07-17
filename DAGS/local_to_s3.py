@@ -10,7 +10,7 @@ S3_KEY = os.environ.get("S3_KEY", "key")
 with models.DAG(
     "upload_local_to_s3",
     schedule_interval=None,
-    start_date=days_ago(1)
+    start_date=days_ago(1),
     catchup=False,
 ) as dag:
     create_local_to_s3_job = LocalFilesystemToS3Operator(
