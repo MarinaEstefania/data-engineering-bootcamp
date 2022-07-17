@@ -22,7 +22,7 @@ with DAG(
         task_id='task_upload_to_s3',
         python_callable=upload_to_s3,
         op_kwargs={
-            'filename': 'C:/Users/mgarc/Documents/wizeline/bootcamp/data-engineering-bootcamp/DATA/movie_review.csv',
+            'filename': '/Users/mgarc/Documents/wizeline/bootcamp/data-engineering-bootcamp/DATA/movie_review.csv',
             'key': 'movie_review.csv',
             'bucket_name': 'myawsbucket-megc'
         }
