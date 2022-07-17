@@ -1,4 +1,5 @@
 from fileinput import filename
+import logging
 import os
 
 from airflow import models
@@ -9,21 +10,20 @@ from airflow.hooks.postgres_hook import PostgresHook
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
-print (os.path.abspath(__file__))
 
 file=""
 def find_path():
     # CSV loading to table.
     # Getting the current work directory (cwd)
     table_dir = os.getcwd()
-    print ("table dir = " + table_dir)
+    logging.info("table dir = " + table_dir)
     # r=root, d=directories, f=files
     for r, d, f in os.walk(table_dir):
         for file in f:
             if file.endswith("movie_review.csv"):
                 table_path = os.path.join(r, file)
 
-    print("table path = " + table_path)
+    logging.info("table path = " + table_path)
 
     file = table_path
 
