@@ -1,12 +1,14 @@
 from fileinput import filename
 import logging
 import os
+from venv import create
 
 from airflow import models
 from airflow.providers.amazon.aws.transfers.local_to_s3 import LocalFilesystemToS3Operator
 from airflow.utils.dates import datetime
 from airflow.utils.dates import days_ago
 from airflow.hooks.postgres_hook import PostgresHook
+from airflow.operators.python import PythonOperator
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
@@ -33,6 +35,10 @@ with models.DAG(
     start_date=days_ago(1),
     catchup=False,
 ) as dag:
+    find_relative_path = PythonOperator(
+        task_id = "find_relative_path",
+        python_callable = find_path
+    )
     create_local_to_s3_job = LocalFilesystemToS3Operator(
         task_id="create_local_to_s3_job",
         filename=file,
@@ -40,3 +46,6 @@ with models.DAG(
         dest_bucket=S3_BUCKET,
         replace=True,
     )
+
+    find_relative_path >> create_local_to_s3_job
+    
