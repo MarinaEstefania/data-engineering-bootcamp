@@ -27,7 +27,7 @@ def find_path():
                 table_path = os.path.join(r, file)
     
     logging.info("table path = " + table_path)
-    
+
     file = table_path
 
 with models.DAG(
@@ -42,7 +42,7 @@ with models.DAG(
     )
     create_local_to_s3_job = LocalFilesystemToS3Operator(
         task_id="create_local_to_s3_job",
-        filename=file
+        filename=file,
         dest_key=S3_KEY,
         dest_bucket=S3_BUCKET,
         replace=True,
