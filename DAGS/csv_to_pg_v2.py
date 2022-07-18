@@ -26,9 +26,8 @@ with DAG(
     catchup=False
 ) as dag:
     start_workflow = DummyOperator(task_id="start_worklow")
-    validate = DummyOperator(task_id="validate")
-    prepare = PostgresOperator(
-        task_id="prepare",
+    create_table = PostgresOperator(
+        task_id="create_table",
         postgres_conn_id="pg_conn", 
         sql="""
             CREATE SCHEMA if not exists deb;
@@ -42,13 +41,11 @@ with DAG(
                 customer_id int,
                 country varchar(20)
             );
-            SELECT COUNT(*) AS total_rows FROM deb.user_purchase
             """,
     )
     count = PythonOperator(
         task_id = "count",
         python_callable = get_table_count
-
     )
     load = PostgresOperator(
         task_id="load",
@@ -63,4 +60,4 @@ with DAG(
     )
     end_workflow = DummyOperator(task_id="end_worklow")
 
-    start_workflow >> validate >> prepare >> count >> load >> end_workflow
+    start_workflow >>  create_table >> count >> load >> end_workflow
