@@ -2,3 +2,8 @@
 
 DATA/*
 bins/*
+
+DAGS/log_reviews.csv
+DAGS/movie_review.csv
+DAGS/user_purchase.csv
+

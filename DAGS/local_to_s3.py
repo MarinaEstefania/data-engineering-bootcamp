@@ -24,7 +24,7 @@ def find_path():
     # r=root, d=directories, f=files
     for r, d, f in os.walk(table_dir):
         for file in f:
-            if file.endswith("prueba.txt"):
+            if file.endswith("log_reviews.csv"):
                 table_path = os.path.join(r, file)
     logging.info("table path = " + table_path)
     file_path = table_path
