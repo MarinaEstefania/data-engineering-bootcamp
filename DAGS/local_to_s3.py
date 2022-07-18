@@ -11,8 +11,8 @@ from airflow.hooks.postgres_hook import PostgresHook
 from airflow.operators.python import PythonOperator
 
 #The following examples of OS environment variables used to pass arguments to the operator:
-#S3_BUCKET = os.environ.get("S3_BUCKET", "name-of-the-test-bucket")
-#S3_KEY = os.environ.get("S3_KEY", "my-key")
+S3_BUCKET = os.environ.get("S3_BUCKET", "name-of-the-test-bucket")
+S3_KEY = os.environ.get("S3_KEY", "my-key")
 
 
 file_path = " "
