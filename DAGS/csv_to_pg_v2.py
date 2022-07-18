@@ -13,8 +13,10 @@ from airflow.utils.dates import days_ago
 
 
 DAG_ID = "csv_to_pg_v2"
+s3_conn = "s3_conn"
+pg_conn = "pg_conn"
 
-def upload_data_func(s3_conn, pg_conn ):
+def upload_data_func(s3_conn:str = "aws_default", pg_conn:str = "postgres_default" ):
     #for item, value in os.environ.items():
     #    print('{}: {}'.format(item, value))
     S3_BUCKET = Variable.get("S3_BUCKET")
@@ -84,8 +86,8 @@ with DAG(
         task_id="upload_data",
         python_callable = upload_data_func,
         op_kwargs={
-            "s3_conn": "s3_conn",
-            "pg_conn": "pg_conn",
+            "s3_conn": s3_conn,
+            "pg_conn": pg_conn,
         },
     )
     count_after_populate = PythonOperator(
