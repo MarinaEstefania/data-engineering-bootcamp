@@ -15,6 +15,8 @@ DAG_ID = "csv_to_pg_v2"
 
 S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
+s3_conn = os.environ.get("s3_conn")
+pg_conn = os.environ.get("pg_conn")
 
 def upload_data_func():
     s3_hook = S3Hook(s3_conn)
