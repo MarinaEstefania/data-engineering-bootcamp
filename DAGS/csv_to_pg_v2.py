@@ -26,12 +26,12 @@ def upload_data_func():
     logging.info(S3_CONN)
     logging.info(PG_CONN)
 
-    s3_hook = S3Hook(S3_CONN)
+    s3_hook_conn = S3Hook(S3_CONN)
     logging("you're about to call s3_hook.downoad_file")
-    local_filename = s3_hook.download_file(key=S3_KEY, bucket_name=S3_BUCKET)
+    local_filename = s3_hook_conn.download_file(key=S3_KEY, bucket_name=S3_BUCKET)
     
-    psql_hook = PostgresHook(PG_CONN)
-    psql_hook.copy_expert(sql = """COPY deb.user_purchase(
+    psql_hook_conn = PostgresHook(PG_CONN)
+    psql_hook_conn.copy_expert(sql = """COPY deb.user_purchase(
                 invoice_number,
                 stock_code,
                 detail,
