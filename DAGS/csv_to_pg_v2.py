@@ -17,7 +17,7 @@ DAG_ID = "csv_to_pg_v2"
 def upload_data_func():
     for item, value in os.environ.items():
         print('{}: {}'.format(item, value))
-    S3_BUCKET = os.environ.get("S3_BUCKET")
+    S3_BUCKET = os.environ.get("S3_BUCKET", "mybucket")
     logging.info(S3_BUCKET)
     S3_KEY = os.environ.get("S3_KEY")
     logging.info(S3_KEY)
