@@ -22,7 +22,6 @@ def upload_data_func():
     logging.info(S3_KEY)
 
     s3_hook_conn = S3Hook(aws_conn_id=S3_CONN)
-    logging("you're about to call s3_hook.downoad_file")
     local_filename = s3_hook_conn.download_file(key=S3_KEY, bucket_name=S3_BUCKET)
     
     psql_hook_conn = PostgresHook(postgres_conn_id=PG_CONN)
