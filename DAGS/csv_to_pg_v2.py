@@ -20,7 +20,7 @@ def upload_data_func():
     s3_hook = S3Hook(s3_conn)
     local_filename = s3_hook.download_file(key=S3_KEY, bucket_name=S3_BUCKET)
     psql_hook = PostgresHook(pg_conn)
-    psql_hook.copy_expert(sql = """COPY user_purchase(
+    psql_hook.copy_expert(sql = """COPY deb.user_purchase(
                 invoice_number,
                 stock_code,
                 detail,
