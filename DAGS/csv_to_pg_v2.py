@@ -22,7 +22,7 @@ def upload_data_func():
     logging.info(S3_KEY)
   
     s3_hook_conn = S3Hook(aws_conn_id=S3_CONN)
-    local_filename = s3_hook_conn.download_file(bucket_name=S3_BUCKET, key=S3_KEY, fi="user_purchase.csv")
+    local_filename = s3_hook_conn.download_file(bucket_name=S3_BUCKET, key=S3_KEY)
     
     psql_hook_conn = PostgresHook(postgres_conn_id=PG_CONN)
     psql_hook_conn.copy_expert(sql = """COPY deb.user_purchase(
