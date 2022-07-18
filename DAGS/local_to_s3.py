@@ -14,9 +14,9 @@ S3_BUCKET = os.environ.get("S3_BUCKET", "test-bucket")
 S3_KEY = os.environ.get("S3_KEY", "key")
 
 
-file = str
+file_path = " "
 def find_path():
-    global file
+    global file_path
     # CSV loading to table.
     # Getting the current work directory (cwd)
     table_dir = os.getcwd()
@@ -27,7 +27,7 @@ def find_path():
             if file.endswith("prueba.txt"):
                 table_path = os.path.join(r, file)
     logging.info("table path = " + table_path)
-    file = table_path
+    file_path = table_path
 
 with models.DAG(
     "upload_local_to_s3",
@@ -41,7 +41,7 @@ with models.DAG(
     )
     create_local_to_s3_job = LocalFilesystemToS3Operator(
         task_id="create_local_to_s3_job",
-        filename=file,
+        filename=file_path,
         dest_key=S3_KEY,
         dest_bucket=S3_BUCKET,
         replace=True,
