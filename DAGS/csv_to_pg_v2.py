@@ -1,4 +1,5 @@
 from asyncio import tasks
+import logging
 from airflow.models import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
@@ -9,14 +10,13 @@ from airflow.utils.dates import days_ago
 DAG_ID = "csv_to_pg_v2"
 
 def get_table_count():
-    pg_hook = PostgresHook(postgres_conn_id='pg_db')
+    pg_hook = PostgresHook(postgres_conn_id='pg_conn')
     pg_conn = pg_hook.get_conn()
     cursor = pg_conn.cursor()
-    count = cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
+    cursor.execute("SELECT COUNT(*) AS total_rows FROM deb.user_purchase")
     #cursor.close()
     #pg_conn.close
-    print("returning ")
-    return count
+    logging.info("returning count: " + cursor.fetchone())
 
 
 with DAG(
@@ -29,7 +29,7 @@ with DAG(
     validate = DummyOperator(task_id="validate")
     prepare = PostgresOperator(
         task_id="prepare",
-        postgres_conn_id="pg_db", 
+        postgres_conn_id="pg_conn", 
         sql="""
             CREATE SCHEMA if not exists deb;
             CREATE TABLE if not exists deb.user_purchase (
@@ -52,7 +52,7 @@ with DAG(
     )
     load = PostgresOperator(
         task_id="load",
-        postgres_conn_id="pg_db", 
+        postgres_conn_id="pg_conn", 
         sql="""
             \copy deb.user_purchase(InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country)
                 FROM 'C:\\Users\\mgarc\\Documents\\wizeline\\bootcamp\\data-engineering-bootcamp\\DATA\\user_purchase.csv'
