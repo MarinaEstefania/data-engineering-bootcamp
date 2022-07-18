@@ -15,6 +15,8 @@ DAG_ID = "csv_to_pg_v2"
 
 
 def upload_data_func():
+    for item, value in os.environ.items():
+        print('{}: {}'.format(item, value))
     S3_BUCKET = os.environ.get("S3_BUCKET")
     logging.info(S3_BUCKET)
     S3_KEY = os.environ.get("S3_KEY")
@@ -25,7 +27,7 @@ def upload_data_func():
     logging.info(pg_conn)
     s3_hook = S3Hook(s3_conn)
     logging("you're about to call s3_hook.downoad_file")
-    
+
     local_filename = s3_hook.download_file(key=S3_KEY, bucket_name=S3_BUCKET)
     psql_hook = PostgresHook(pg_conn)
     psql_hook.copy_expert(sql = """COPY deb.user_purchase(
