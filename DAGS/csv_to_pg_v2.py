@@ -3,6 +3,7 @@ import logging
 import os
 from ssl import SSLSocket
 from airflow.models import DAG
+from airflow.models import Variable
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
@@ -10,14 +11,15 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.utils.dates import days_ago
 
+
 DAG_ID = "csv_to_pg_v2"
 
 
 
 def upload_data_func():
-    for item, value in os.environ.items():
-        print('{}: {}'.format(item, value))
-    S3_BUCKET = os.environ.get("S3_BUCKET", "mybucket")
+    #for item, value in os.environ.items():
+    #    print('{}: {}'.format(item, value))
+    S3_BUCKET = Variable.get("S3_BUCKET")
     logging.info(S3_BUCKET)
     S3_KEY = os.environ.get("S3_KEY")
     logging.info(S3_KEY)
