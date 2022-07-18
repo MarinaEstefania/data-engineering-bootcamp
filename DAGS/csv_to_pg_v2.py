@@ -16,16 +16,14 @@ DAG_ID = "csv_to_pg_v2"
 
 
 
-def upload_data_func():
+def upload_data_func(s3_conn, pg_conn ):
     #for item, value in os.environ.items():
     #    print('{}: {}'.format(item, value))
     S3_BUCKET = Variable.get("S3_BUCKET")
     logging.info(S3_BUCKET)
     S3_KEY = Variable.get("S3_KEY")
     logging.info(S3_KEY)
-    s3_conn: str = "s3_conn"
     logging.info(s3_conn)
-    pg_conn: str = "pg_conn"
     logging.info(pg_conn)
 
     s3_hook = S3Hook(s3_conn)
@@ -86,7 +84,11 @@ with DAG(
     )
     upload_data = PythonOperator(
         task_id="upload_data",
-        python_callable = upload_data_func
+        python_callable = upload_data_func,
+        op_kwargs={
+            "s3_conn": s3_conn,
+            "pg_conn": pg_conn,
+        },
     )
     count_after_populate = PythonOperator(
         task_id = "count_after_populate",
