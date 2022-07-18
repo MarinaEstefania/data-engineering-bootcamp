@@ -16,6 +16,7 @@ S3_KEY = os.environ.get("S3_KEY", "key")
 
 file = str
 def find_path():
+    global file
     # CSV loading to table.
     # Getting the current work directory (cwd)
     table_dir = os.getcwd()
@@ -25,9 +26,7 @@ def find_path():
         for file in f:
             if file.endswith("prueba.txt"):
                 table_path = os.path.join(r, file)
-    
     logging.info("table path = " + table_path)
-
     file = table_path
 
 with models.DAG(
