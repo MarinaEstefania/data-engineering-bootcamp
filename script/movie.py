@@ -54,4 +54,7 @@ dropColumnsDF = isPositiveDF.drop('review_str').drop('review_token').drop('wo_st
 classified_movie_review = dropColumnsDF.withColumnRenamed('cid', 'customer_id').withColumnRenamed('is_positive','positive_review').withColumnRenamed('id_review', 'review_id')
 classified_movie_review.show(5)
 
+#save dataframe as CSV file
+classified_movie_review.write.option("header","true").csv("s3://manual-bucket-megc/stage-data/")
+
 job.commit()
