@@ -55,6 +55,6 @@ classified_movie_review = dropColumnsDF.withColumnRenamed('cid', 'customer_id').
 classified_movie_review.show(5)
 
 #save dataframe as CSV file
-classified_movie_review.write.option("header","true").csv("s3://manual-bucket-megc/stage-data/")
+classified_movie_review.write.option("header","true").csv("s3://manual-bucket-megc/stage-data/classified_movie_review")
 
 job.commit()
