@@ -1,9 +1,40 @@
+--This is a SQL Server
 CREATE DATABASE debdb;
 CREATE SCHEMA golddata;
 
---Fact table:
+------classified_movie_review table:
+CREATE TABLE classified_movie_review(
+  customer_id int IDENTITY(1,1) PRIMARY KEY,
+  is_positive BOOLEAN,
+  review_id INTEGER);
+ 
+-----user_purchase table:
+CREATE TABLE user_purchase (
+   invoice_number varchar(10),
+   stock_code varchar(20),
+   detail varchar(1000),
+   quantity int,
+   invoice_date timestamp,
+   unit_price numeric(8,3),
+   customer_id int,
+   country varchar(20)
+);
+
+------review_logs table:
+CREATE TABLE review_logs (
+  log_date string,
+  device string,
+  location string,
+  os string,
+  ip string,
+  phone_numbe string,
+  browser string,
+  log_id integer
+);
+
+------Fact table:
 CREATE TABLE fact_movie_analytics (
-   customerid INTEGER,
+   customerid int IDENTITY(1,1) PRIMARY KEY,
    id_dim_devices INTEGER,
    id_dim_location INTEGER,
    id_dim_os INTEGER,
@@ -12,33 +43,40 @@ CREATE TABLE fact_movie_analytics (
    review_score INTEGER,
    review_count INTEGER,
    insert_date DATE);
-   
---Dim tables:
+--DROP TABLE fact_movie_analytics;
+
+-------Dim tables:
 CREATE TABLE dim_date (
-  id_dim_date INTEGER,
+  id_dim_date int IDENTITY(1,1) PRIMARY KEY,
   log_date DATE,
   day VARCHAR,
   month VARCHAR,
   year VARCHAR,
   season VARCHAR
 );
+DROP TABLE dim_date;
 
 CREATE TABLE dim_devices (
-  id_dim_devices INTEGER,
   device VARCHAR
 );
+DROP TABLE dim_devices;
 
 CREATE TABLE dim_location (
-  id_dim_location INTEGER,
+  id_dim_location int IDENTITY(1,1) PRIMARY KEY,
   location VARCHAR
 );
+DROP TABLE dim_location;
 
 CREATE TABLE dim_os (
-  id_dim_devices INTEGER,
+  id_dim_os int IDENTITY(1,1) PRIMARY KEY,
   os VARCHAR
 );
+DROP TABLE dim_os;
 
 CREATE TABLE dim_browser (
-  id_dim_devices INTEGER,
+  id_dim_browser int IDENTITY(1,1) PRIMARY KEY,
   browser VARCHAR
 );
+DROP TABLE fact_movie_analytics;
+
+select * from review_logs;
