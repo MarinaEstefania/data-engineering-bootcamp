@@ -38,6 +38,12 @@ sfOptions = {
 df = spark.read.parquet("s3://manual-bucket-megc/stage-data/review_logs.parquet/")
 df.show()
 
+movies_df = spark.read.parquet("s3://manual-bucket-megc/stage-data/classified_movie_review.parquet/")
+movies_df.show()
+
+purchase_df = spark.read.option("Header", True).csv("s3://manual-bucket-megc/raw-data/user_purchase.csv")
+purchase_df.show()
+
 #Transform data (create dim dataframes)
 dim_devices = df.select(col('log_id'),col('device')) \
   .drop_duplicates(['device']) \
@@ -74,5 +80,9 @@ dim_location.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("db
 dim_os.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "DIM_OS").mode("overwrite").save()
 dim_browser.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "DIM_BROWSER").mode("overwrite").save()
 dim_date.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "DIM_DATE").mode("overwrite").save()
+
+df.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "review_logs").mode("overwrite").save()
+movies_df.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "classified_movie_review").mode("overwrite").save()
+purchase_df.write.format(SNOWFLAKE_SOURCE_NAME).options(**sfOptions).option("dbtable", "user_purchase").mode("overwrite").save()
 
 job.commit()
